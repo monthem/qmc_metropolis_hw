@@ -69,4 +69,45 @@ function uniform_monte_carlo(nmax, a) result(energy)
     energy = energy / normalization
 end function uniform_monte_carlo
 
+subroutine metropolis_monte_carlo(nmax, a, dt, energy, acceptance)
+    ! Performs a monte carlo integration with metropolis sampling
+    
+    ! Arguments
+    integer(kind=8)                 :: nmax
+    double precision, intent(in)    :: a, dt
+    double precision, intent(out)   :: energy, acceptance
+    ! Local variables
+    integer(kind=8)                 :: n, accepted = 0
+    double precision                :: r_old(3), r_new(3), u(3), psi_old, psi_new
+    double precision                :: ratio, v, nmax_inv
+
+    ! Initialization of some variables
+    acceptance = 0d0
+    call generate_rnd_r(r_old, -5d0, 5d0)
+    u = 0d0
+    nmax_inv = 1d0 / dble(nmax)
+    energy = local_energy(a, r_old)
+
+    do n = 2, nmax
+        call generate_rnd_r(u, -1d0, 1d0)
+        r_new = r_old + dt * u
+        energy = energy + local_energy(a, r_new)
+        psi_old = wawefunction(a, r_old)
+        psi_new = wawefunction(a, r_new)
+        ratio = (psi_new / psi_old)**2
+        call random_number(v)
+        if (v <= ratio) then
+            r_old = r_new
+            accepted = accepted + 1
+        end if
+    end do
+    energy = energy * nmax_inv
+    acceptance = accepted * nmax_inv
+end subroutine metropolis_monte_carlo
+        
+
+
+    
+    
+
 end module section_3
