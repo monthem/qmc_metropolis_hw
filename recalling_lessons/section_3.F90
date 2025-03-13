@@ -154,9 +154,10 @@ subroutine gmmc_acceptance_probability(r_old, r_new, d_old, d_new, dt, a_prob)
     double precision, intent(in)        :: d_old(3), d_new(3)
     double precision, intent(in)        :: dt
     double precision, intent(out)       :: a_prob
-
-    a_prob = (r_new - r_old) * (0.5d0 * dt * (d_new**2 - d_old**2))
-    a_prob = exp(a_prob)    ! Do not forget to multiply by |psi(r')|² / |psi(r)|² in gmmc subroutine!
+    
+    a_prob = dot_product((r_new - r_old), (d_new + d_old))
+    a_prob = a_prob + 0.5d0 * dt * (sum(d_new**2) - sum(d_old**2))
+    a_prob = exp(-1.0d0 * a_prob)
 end subroutine gmmc_acceptance_probability
 
 subroutine gen_metropolis_monte_carlo(a, nmax, dt, energy, acceptance)
@@ -165,39 +166,41 @@ subroutine gen_metropolis_monte_carlo(a, nmax, dt, energy, acceptance)
     double precision, intent(in)            :: a, dt
     double precision, intent(out)           :: energy, acceptance
     ! Local variables
-    integer(kind=8)                         :: n, accepted = 0
+    integer(kind=8)                         :: n, rejected, accepted
     double precision                        :: r_old(3), r_new(3), psi_old, psi_new
-    double precision                        :: d_old(3), d_new(3), chi(3)
-    double precision                        :: v, a_prob, nmax_inv, diffusion, sqrt_dt, P
-    
+    double precision                        :: d_old(3), d_new(3), chi(3), diffusion(3)
+    double precision                        :: v, a_prob, nmax_inv, sqrt_dt, P
+
     ! Initialization of some variables
     acceptance = 0d0
-    u = 0d0
+    energy = 0d0
     nmax_inv = 1d0 / dble(nmax)
     sqrt_dt = sqrt(dt)
+    accepted = 0_8      
     call generate_rnd_r(r_old, -5d0, 5d0)
-    energy = local_energy(a, r_old)
+    call calculate_drift_vector(a, r_old, d_old)
+    psi_old = wawefunction(a, r_old)
 
-    do n = 2, nmax
+    do n = 1, nmax
+        energy = energy + local_energy(a, r_old)
         chi = gaussian_rnd(3)
         diffusion = sqrt_dt * chi
-        call calculate_drift_vector(a, r_old, d_old)
         r_new = r_old + dt * d_old + diffusion
         call calculate_drift_vector(a, r_new, d_new)
-        energy = energy + local_energy(a, r_new)
-        psi_old = wawefunction(a, r_old)
         psi_new = wawefunction(a, r_new)
         P = (psi_new / psi_old)**2
         call gmmc_acceptance_probability(r_old, r_new, d_old, d_new, dt, a_prob)
         a_prob = a_prob * P
         call random_number(v)
         if (v <= a_prob) then
+            accepted = accepted + 1_8
             r_old = r_new
-            accepted = accepted + 1
+            d_old = d_new
+            psi_old = psi_new
         end if
     end do
     energy = energy * nmax_inv
-    acceptance = accepted * nmax_inv
+    acceptance = dble(accepted) * nmax_inv
 end subroutine gen_metropolis_monte_carlo
 
 end module section_3
