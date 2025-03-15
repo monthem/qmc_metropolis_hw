@@ -140,12 +140,11 @@ subroutine calculate_drift_vector(a, r, d)
     double precision, intent(in)    :: a, r(3)
     double precision, intent(out)   :: d(3)
     ! Local variables
-    double precision :: psi, del_psi(3), temp_var
-    psi = wawefunction(a, r)
-    temp_var = -1.0d0 * a / sqrt(sum(r**2))
-    del_psi = [r(1)*temp_var, r(2)*temp_var, r(3)*temp_var]
+    double precision                :: a_r_inv
+    
+    a_r_inv = -a / sqrt(sum(r**2))
+    d = r * a_r_inv
 
-    d = del_psi / psi
 end subroutine calculate_drift_vector
 
 subroutine gmmc_acceptance_probability(r_old, r_new, d_old, d_new, dt, a_prob)
@@ -177,7 +176,8 @@ subroutine gen_metropolis_monte_carlo(a, nmax, dt, energy, acceptance)
     nmax_inv = 1d0 / dble(nmax)
     sqrt_dt = sqrt(dt)
     accepted = 0_8      
-    call generate_rnd_r(r_old, -5d0, 5d0)
+    !call generate_rnd_r(r_old, -5d0, 5d0)
+    r_old = gaussian_rnd(3)
     call calculate_drift_vector(a, r_old, d_old)
     psi_old = wawefunction(a, r_old)
 
