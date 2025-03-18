@@ -24,6 +24,7 @@ function nuc_nuc(A, Z, R) result(V_NN)
 end function nuc_nuc
 
 function nuc_el(A, Z, q) result (V_NE)
+    ! NOT A TOTAL POTENTIAL BUT JUST THAT OF ONE ELECTRON
     ! Arguments
     integer, intent(in)             :: A
     double precision, intent(in)    :: Z(A), q(A, 3)
@@ -60,6 +61,20 @@ function el_el(n, A, big_Q) result(V_EE)
         end do
     end do
 end function el_el
+
+function kinetic_energy(A, coeffs, alpha, q, mu, phi) result(T)
+    ! Arguments
+    integer, intent(in)             :: A
+    double precision, intent(in)    :: coeffs(A), alpha, q(A, 3), mu(A), phi
+    ! Output
+    double precision                :: T
+    ! Local variables
+    double precision                :: del_sq
+    
+    del_sq = 0d0
+    call laplacian(A, coeffs, alpha, q, mu, del_sq)
+    T = -0.5d0 * del_sq / phi
+end function kinetic_energy
 
 
 
