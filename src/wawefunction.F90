@@ -2,30 +2,30 @@ module wawefunction     ! functions for the calculation of individual AOs mu, MO
 implicit none
 contains
 
-subroutine AO(A, coeffs, alphas, q, mu)
+subroutine AO(A, coeffs, alpha, q, mu)
     ! subroutine that takes the number of nuclei A, an array of AO coefficients and exponents of size N, an array of position vectors q of size N by 3, and returns an array of values of the AOs mu of size N
     ! Arguments
     integer, intent(in)             :: A 
-    double precision, intent(in)    :: coeffs(A), alphas(A), q(A, 3)
+    double precision, intent(in)    :: coeffs(A), alpha, q(A, 3)
     double precision, intent(out)   :: mu(A)
     ! Local variable
     integer                         :: i
 
     do i = 1, A
-        mu(i) = coeffs(i) * exp(-alphas(i)*sqrt(sum(q(i,:)**2)))
+        mu(i) = coeffs(i) * exp(-alpha*sqrt(sum(q(i,:)**2)))
     end do
 end subroutine AO
 
-subroutine MO(A, coeffs, alphas, q, mu, phi)
+subroutine MO(A, coeffs, alpha, q, mu, phi)
     ! Arguments
     integer, intent(in)                 :: A
-    double precision, intent(in)        :: coeffs(A), alphas(A), q(A, 3)
+    double precision, intent(in)        :: coeffs(A), alpha, q(A, 3)
     double precision, intent(inout)     :: mu(A)
     double precision, intent(out)       :: phi
     ! Local variable
     integer                             :: i
 
-    call AO(A, coeffs, alphas, q, mu)
+    call AO(A, coeffs, alpha, q, mu)
     phi = sum(mu)
 end subroutine MO
 
@@ -36,5 +36,29 @@ function WF(MO_1, MO_2) result(psi)
     double precision                    :: psi
     psi = MO_1 * MO_2
 end function WF
+
+
+subroutine gradient_vector(A, coeffs, alpha, q, mu, gradient)
+    ! Arguments
+    integer, intent(in)                 :: A
+    double precision, intent(in)        :: coeffs(A), alpha, q(A, 3), mu(A)
+    double precision, intent(out)       :: gradient(3)
+    ! Local variables
+    integer                             :: i
+    double precision                    :: norm_inv
+    
+    gradient = 0d0
+    do i = 1, A
+        norm_inv = 1d0 / sqrt(sum(q(i, :)**2))
+        gradient = gradient + coeffs(i)*mu(i)*norm_inv*q(i,:)
+    end do
+    gradient = -1d0 * alpha * gradient
+end subroutine gradient_vector
+
+
+
+
+
+
 
 end module wawefunction
