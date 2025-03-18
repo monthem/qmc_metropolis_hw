@@ -39,12 +39,15 @@ end function WF
 
 
 subroutine gradient_vector(A, coeffs, alpha, q, mu, gradient)
+    ! WARNING: Correct gradient vector is additionally multiplied by other (if they exist) electrons phi values
+    !          Here it is going to be used only for the drift vector, which divides the gradient vector by Psi
+    !          which cancels other electron's phi values
     ! Arguments
     integer, intent(in)                 :: A
     double precision, intent(in)        :: coeffs(A), alpha, q(A, 3), mu(A)
     double precision, intent(out)       :: gradient(3)
     ! Local variables
-    integer                             :: i
+     integer                             :: i
     double precision                    :: norm_inv
     
     gradient = 0d0
@@ -55,6 +58,21 @@ subroutine gradient_vector(A, coeffs, alpha, q, mu, gradient)
     gradient = -1d0 * alpha * gradient
 end subroutine gradient_vector
 
+subroutine laplacian(A, coeffs, alpha, q, mu, del_sq)
+    ! Arguments
+    integer, intent(in)                 :: A
+    double precision, intent(in)        :: coeffs(A), alpha, q(A, 3), mu(A)
+    double precision, intent(out)       :: del_sq
+    ! Local variables
+    integer                             :: i
+    double precision                    :: norm_inv
+    
+    del_sq = 0d0
+    do i = 1, A
+        norm_inv = 1d0 / sqrt(sum(q(i, :)**2))
+        del_sq = del_sq + coeffs(i)*(alpha**2 - 2d0 * alpha * norm_inv) * mu(i)
+    end do
+end subroutine laplacian
 
 
 
