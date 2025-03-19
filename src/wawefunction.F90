@@ -16,14 +16,14 @@ subroutine AO(A, coeffs, alpha, q, mu)
     end do
 end subroutine AO
 
-subroutine MO(A, coeffs, alpha, q, mu, phi)
+subroutine MO(A, coeffs, alpha, q, phi)
     ! Arguments
     integer, intent(in)                 :: A
     double precision, intent(in)        :: coeffs(A), alpha, q(A, 3)
-    double precision, intent(inout)     :: mu(A)
     double precision, intent(out)       :: phi
     ! Local variable
     integer                             :: i
+    double precision                    :: mu(A)
 
     call AO(A, coeffs, alpha, q, mu)
     phi = sum(mu)
