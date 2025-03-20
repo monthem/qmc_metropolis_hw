@@ -9,7 +9,6 @@ subroutine statistical_analysis(N, values, mean, std_dev, std_err)
     double precision, intent(out)    :: mean, std_dev, std_err
     ! Local variable
     double precision                 :: variance
-
     mean = sum(values) / dble(N)
     variance = sum((values-mean)**2) / dble(N)
     std_dev = sqrt(variance)
