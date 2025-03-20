@@ -27,7 +27,6 @@ This program computes the electronic energies of small **homonuclear systems** (
     ./executable input.inp
     ./executable input.inp > output.out
 ## Example Output
-    ```bash
     $ ./monte_carlo example.inp
     Input file read succesfully!
     Performing           30  Monte Carlo runs now.
