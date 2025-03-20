@@ -1,0 +1,11 @@
+SYSTEM
+1 2 1
+1 0.0 0.0 0.0
+BASIS
+1 1.2
+LCAO
+1.0
+SIMULATION
+100 1000000 1.0
+COMMENT
+You can write any personal notes here

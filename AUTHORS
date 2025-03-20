@@ -1,0 +1,10 @@
+Author(s):
+Danilo Marković danilo.markovic36@gmail.com 
+
+NOTE
+This program is a homework for LTTC winter school as part of M2 EMTCCM programme. 
+The homework was assigned by professor Vijay Gopal Chilkuri (Aix-Marseille University) vijay-gopal.CHILKURI@univ-amu.fr
+
+Theoretical background for the program was provided by the professor at https://v1j4y.github.io/qmc-lttc-2023/index.html 
+
+Some subroutines in this code are adaptations or were inspired by the snippets of codes found at the provided link. 
