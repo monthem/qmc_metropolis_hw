@@ -60,7 +60,7 @@ call statistical_analysis(N_runs, energies, mean_e, sdev_e, serr_e)
 call statistical_analysis(N_runs, acceptances, mean_a, sdev_a, serr_a)
 
 print *, "Monte Carlo runs finished succesfully!"
-print '(A, I2.2, A, I2.2, A)', "Computation time: ", minutes, "min ", seconds, "sec"
+print '(A, I2.2, A, I2.2, A)', "Computation time:                   ", minutes, "min ", seconds, "sec"
 
 ! Print the output values
 print '(A, F18.9, A)', "Computed electronic energy:   ", mean_e, " a.u."
