@@ -5,8 +5,8 @@ contains
 
 function nuc_nuc(A, Z, R) result(V_NN)
     ! Arguments 
-    integer, intent(in)             :: A
-    double precision, intent(in)    :: Z(A), R(A, 3)
+    integer, intent(in)             :: A, Z(A)
+    double precision, intent(in)    :: R(A, 3)
     ! Output
     double precision                :: V_NN
     ! Local variable
@@ -26,8 +26,8 @@ end function nuc_nuc
 function nuc_el(A, Z, q) result (V_NE)
     ! NOT A TOTAL POTENTIAL BUT JUST THAT OF ONE ELECTRON
     ! Arguments
-    integer, intent(in)             :: A
-    double precision, intent(in)    :: Z(A), q(A, 3)
+    integer, intent(in)             :: A, Z(A)
+    double precision, intent(in)    :: q(A, 3)
     ! Output
     double precision                :: V_NE
     ! Local variable 

@@ -10,7 +10,6 @@ subroutine AO(A, coeffs, alpha, q, mu)
     double precision, intent(out)   :: mu(A)
     ! Local variable
     integer                         :: i
-
     do i = 1, A
         mu(i) = coeffs(i) * exp(-alpha*sqrt(sum(q(i,:)**2)))
     end do
