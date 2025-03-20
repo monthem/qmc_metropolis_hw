@@ -16,9 +16,12 @@ function nuc_nuc(A, Z, R) result(V_NN)
     V_NN = 0d0
     do i = 1, A
         do j = i + 1, A
-            norm_R_AB = sqrt(sum(R(i,:) - R(j, :))**2)
+            print *, "computing atom ", i, "with atom", j
+            norm_R_AB = sqrt(sum((R(i,:) - R(j,:))**2))
+            print *, "norm is: ", norm_R_AB
             if (norm_R_AB <= 0.5d0) stop "Attempted nuclear fusion in function nuc_nuc!" ! Don't get two H atoms closer than 0.5 Bohr to each other
             V_NN = V_NN + Z(i) * Z(j) / norm_R_AB
+            print *, Z(i) * Z(j) / norm_R_AB
         end do
     end do
 end function nuc_nuc
