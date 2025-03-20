@@ -41,17 +41,17 @@ This program computes the electronic energies of small **homonuclear systems** (
     Standard error:                           0.0001
 
 ## Input File Format
-SYSTEM
-<N_atoms> <N_electrons> <N_atomtypes>
-<Z> <x> <y> <z> [repeated for each atom]
-BASIS
-<Z> <alpha> [repeated for each atom type]
-LCAO
-<c1> <c2> ... <cN_atoms>
-SIMULATION
-<N_runs> <N_steps> <dt>
-COMMENT
-[Optional user notes]
+    SYSTEM
+    <N_atoms> <N_electrons> <N_atomtypes>
+    <Z> <x> <y> <z> [repeated for each atom]
+    BASIS
+    <Z> <alpha> [repeated for each atom type]
+    LCAO
+    <c1> <c2> ... <cN_atoms>
+    SIMULATION
+    <N_runs> <N_steps> <dt>
+    COMMENT
+    [Optional user notes]
 
 ## Requirements
 GNU Fortran compiler (gfortran). Program was tested with gfortran 14.2.1.
