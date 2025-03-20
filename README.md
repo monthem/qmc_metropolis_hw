@@ -29,17 +29,17 @@ This program computes the electronic energies of small **homonuclear systems** (
 ## Example Output
     ```bash
     $ ./monte_carlo example.inp
-Input file read succesfully!
-Performing           30  Monte Carlo runs now.
-Monte Carlo runs finished succesfully!
-Computation time:                   00min 38sec
-Computed electronic energy:         -0.435991689 a.u.
-Standard deviation:                     0.001386 a.u.
-Standard error:                         0.000253 a.u.
+    Input file read succesfully!
+    Performing           30  Monte Carlo runs now.
+    Monte Carlo runs finished succesfully!
+    Computation time:                   00min 38sec
+    Computed electronic energy:         -0.435991689 a.u.
+    Standard deviation:                     0.001386 a.u.
+    Standard error:                         0.000253 a.u.
 
-Acceptance rate:                          0.6208
-Standard deviation:                       0.0005
-Standard error:                           0.0001
+    Acceptance rate:                          0.6208
+    Standard deviation:                       0.0005
+    Standard error:                           0.0001
 
 ## Input File Format
 SYSTEM
