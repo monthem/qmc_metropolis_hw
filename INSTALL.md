@@ -8,10 +8,11 @@ Installation and usage instructions assume Linux based OS.
 ## Installing `gfortran`  
 
 ### Ubuntu/Debian:  
-```bash  
-sudo apt install gfortran 
+    ```bash  
+    sudo apt install gfortran 
 ### Arch Linux:
-sudo pacman -S gcc-fortran
+    ```bash
+    sudo pacman -S gcc-fortran
 
 ## Compilation
 1. Navigate to the `src` directory:
