@@ -1,8 +1,3 @@
-
----
-
-**`INSTALL.md`**  
-```markdown
 # Installation Instructions  
 
 Installation and usage instructions assume Linux based OS.
